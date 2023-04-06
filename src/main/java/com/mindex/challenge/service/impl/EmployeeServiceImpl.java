@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import java.util.UUID;
 
 @Service
@@ -29,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee read(String id) {
-        LOG.debug("Creating employee with id [{}]", id);
+        LOG.debug("Reading employee with id [{}]", id);
 
         Employee employee = employeeRepository.findByEmployeeId(id);
 
@@ -45,5 +47,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         LOG.debug("Updating employee [{}]", employee);
 
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public Integer numberOfReports(String id) {
+        Employee employee = read(id);
+        if (CollectionUtils.isEmpty(employee.getDirectReports())) {
+            return 0;
+        }
+        int reportsCount = employee.getDirectReports().size();
+        for (Employee report : employee.getDirectReports()) {
+            reportsCount += numberOfReports(report.getEmployeeId());
+        }
+        return reportsCount;
     }
 }
