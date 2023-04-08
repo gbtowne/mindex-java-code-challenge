@@ -6,6 +6,7 @@ import com.mindex.challenge.service.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,7 +42,19 @@ public class EmployeeController {
     public ReportingStructure reports(@PathVariable String id) {
         LOG.debug("Received employee report request for id [{}]", id);
         Employee employee = employeeService.read(id);
-        int numberOfReports = employeeService.numberOfReports(id);
+        int numberOfReports = numberOfReports(id);
         return new ReportingStructure(employee, numberOfReports);
+    }
+
+    private Integer numberOfReports(String id) {
+        Employee employee = read(id);
+        if (CollectionUtils.isEmpty(employee.getDirectReports())) {
+            return 0;
+        }
+        int reportsCount = employee.getDirectReports().size();
+        for (Employee report : employee.getDirectReports()) {
+            reportsCount += numberOfReports(report.getEmployeeId());
+        }
+        return reportsCount;
     }
 }

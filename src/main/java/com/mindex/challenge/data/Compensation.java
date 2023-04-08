@@ -1,9 +1,7 @@
 package com.mindex.challenge.data;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 public class Compensation {
 
@@ -11,9 +9,9 @@ public class Compensation {
 
     private BigDecimal salary;
 
-    private ZonedDateTime effectiveDate;
+    private LocalDate effectiveDate;
 
-    public Compensation(Employee employee, BigDecimal salary, ZonedDateTime effectiveDate) {
+    public Compensation(Employee employee, BigDecimal salary, LocalDate effectiveDate) {
         this.employee = employee;
         this.salary = salary;
         this.effectiveDate = effectiveDate;
@@ -35,11 +33,11 @@ public class Compensation {
         this.salary = salary;
     }
 
-    public ZonedDateTime getEffectiveDate() {
+    public LocalDate getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(ZonedDateTime effectiveDate) {
+    public void setEffectiveDate(LocalDate effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 }

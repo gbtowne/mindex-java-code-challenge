@@ -48,17 +48,4 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeRepository.save(employee);
     }
-
-    @Override
-    public Integer numberOfReports(String id) {
-        Employee employee = read(id);
-        if (CollectionUtils.isEmpty(employee.getDirectReports())) {
-            return 0;
-        }
-        int reportsCount = employee.getDirectReports().size();
-        for (Employee report : employee.getDirectReports()) {
-            reportsCount += numberOfReports(report.getEmployeeId());
-        }
-        return reportsCount;
-    }
 }
