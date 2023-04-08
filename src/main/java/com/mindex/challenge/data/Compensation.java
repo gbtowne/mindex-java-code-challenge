@@ -1,5 +1,7 @@
 package com.mindex.challenge.data;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
