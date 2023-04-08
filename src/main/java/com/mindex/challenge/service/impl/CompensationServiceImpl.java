@@ -32,7 +32,7 @@ public class CompensationServiceImpl implements CompensationService {
         Compensation compensation = compensationRepository.findByEmployeeEmployeeId(employeeId);
 
         if (compensation == null) {
-            throw new RuntimeException("Invalid employeeId: " + employeeId);
+            throw new IllegalArgumentException("Invalid employeeId: " + employeeId);
         }
 
         return compensation;
